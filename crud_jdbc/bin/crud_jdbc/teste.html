@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciador de Usuário</title>
+</head>
+<body>
+  <h1>Usuário</h1>
+
+  <button onclick="carregarUsuarios()">Carregar Usuário</button>
+
+  <ul id="lista-usuario"></ul>
+
+  <h2>Criar novo usuário</h2>
+  <input type="text" id="nome" placeholder="Nome do usuário">
+  <input type="text" id="email" placeholder="email do usuário">
+  <button onclick="criarUsuario()">Criar</button>
+
+  <script>
+    const baseUrl = "http://localhost:8080/usuario";
+
+    async function carregarUsuarios() {
+      const resposta = await fetch(baseUrl);
+      const usuarios = await resposta.json();
+
+      const lista = document.getElementById("lista-usuario");
+      lista.innerHTML = "";
+      usuarios.forEach(usuario => {
+        const li = document.createElement("li");
+        li.textContent = `ID: ${usuario.id} | Nome: ${usuario.nome}`;
+        lista.appendChild(li);
+      });
+    }
+
+    async function criarUsuario() { // Corrigido nome da função
+      const nome = document.getElementById("nome").value;
+      if (!nome) {
+        alert("Informe o nome");
+        return;
+      }
+
+      const email = document.getElementById("email").value;
+      if (!email) {
+        alert("Informe o email");
+        return;
+      }
+
+      const resposta = await fetch(baseUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, email })
+      });
+
+      const texto = await resposta.text();
+      alert(texto);
+      carregarUsuarios(); // Corrigido chamada da função
+    }
+  </script>
+</body>
+</html>
