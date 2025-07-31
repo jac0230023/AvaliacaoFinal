@@ -12,6 +12,6 @@ public class Servidor {
         server.createContext("/usuario", new UsuarioController());
         server.setExecutor(null);
         server.start();
-        JOptionPane.showMessageDialog(null, "Servidor rodando em http://localhost:8080/usuarios");
+        JOptionPane.showMessageDialog(null, "Servidor rodando em http://localhost:8080/usuario");
     }
 }
